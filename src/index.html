@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <title><%= htmlWebpackPlugin.options.title %></title>
+  </head>
+  <body>
+    <page>
+      <p style="text-align: center" id="viage-loading">Loading....</p>
+    </page>
+    <script>
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          const e = document.querySelector('#viage-loading');
+          if (e) {
+            e.textContent = 'This page is not supported by your browser. Please consider using Safari, Firefox, Edge, or Chrome';
+          }
+        }, 1000);
+      });
+    </script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+  </body>
+</html>

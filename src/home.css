@@ -1,0 +1,30 @@
+.home-backdrop {
+  width:100%;
+  height: 400px;
+  margin-top: -73px;
+  background-color: 008dff;
+  background: linear-gradient(145deg,#f3f3f3,#008dff);
+  color: #fff;
+  webkit-transform: skewY(8deg);
+  transform: skewY(8deg);
+}
+.home-title {
+  position: absolute;
+  left: calc(50vw - 114px);
+  font-size: 80px;
+  font-weight: 600;
+  margin-top: 175px;
+  webkit-transform: skewY(8deg);
+  transform: skewY(-8deg);
+}
+.tag-lines {
+  margin-top: 290px;
+  margin-bottom: 1rem;
+  position: absolute;
+  transform: skewY(-8deg);
+  margin-left: calc(50vw - 220px);
+}
+
+@media only screen and (max-width: 560px) {
+  .tag-lines { margin-left: 20px; }
+}

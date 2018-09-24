@@ -1,0 +1,119 @@
+import { Component } from 'viage';
+import { States } from './app';
+
+
+  export class RouterPage extends Component {
+    constructor() {
+      super('router');
+    }
+    init() {
+      this.setHTML(`
+        <div class="page-header">
+          <h1 style="text-align: center">Router</h1>
+        </div>
+        <div class="container">
+          <h2>The Viage Router</h2>
+          <p>
+            The Viage Router is a simple configurable router that can be a hash, location, or a standalone router.
+            For information on the Router API and how to use it go to the <a href="${this.router.createUrl(States.API)}">API</a> page.
+          </p>
+          <h4>Design Goals</h4>
+          <ul>
+            <li>Make it as simple and as easy to use as possible</li>
+            <li>Don't worry about backwards compatability with older browsers such as IE</li>
+            <li>Support a routing mode that doesn't need to use the DOM's location and History API (Standalone)</li>
+            <li>Support a routing mode that doesn't need to reload the page (Hash)</li>
+            <li>Support a routing mode that does reload the page (Location)</li>
+          </ul>
+          <h4>Router Types</h4>
+          <h5>HTML5 Router</h5>
+          <p>
+            HTML5 supports the concept of a router via history.pushState(), history.replaceState(), and the onpopstate event.
+            The rules are as follows:
+            <ul>
+              <li>
+                history.pushState/replaceState adds a new entry to the history queue, changes the title bar, but does not
+                cause a reload or fire the popstate event.
+              </li>
+              <li>
+                The onpopstate event is fired when a back or forward button is pressed or a traverse from one pushed State to another.
+                The browser will not reload the page.
+              </li>
+              <li>
+                None of these things impact assigning a location.href value or clicking an anchor. This means that implementing
+                a router based on this API cannot use anchors, links, or location.href with out triggering a reload.
+              </li>
+            </ul>
+          </p>
+          <h5>Hash Router</h5>
+          <p>
+            A Hash router relies on the fact that # links do not cause browser reloads. All state changes have to be encoded as a
+            hash route. To detect external changes you can listen to the onpopstate event and the hashchange event. This type of
+            router works well with history.back(), anchors, links, and location.href assignments. It does not cause the browser to
+            load new files. Although you can certainly code up a hash router to dynamically load chunks of code based on state.
+          </p>
+          <h5>Location Router</h5>
+          <p>
+            This type of Router just loads a new location, but when the application loads, the location is examined to determine the state.
+            This type of router does not need to listen to any events. However, this type of router relies on some server functionality
+            to always serve up index.html when it can't resolve the file path. You can get around this by using the url parameter syntax
+            and store the state info as a parameter and always load index.html. This type of router causes a browser load on every state
+            or url change.
+          </p>
+          <h5>Standalone Router</h5>
+          <p>
+            This type of router doesn't use the Location or History objects and must be called directly to go to a new location or to go back.
+            It simply renders the result of the current state into a designated portal.
+          </p>
+          <h5>Problems that routers suffer from (except standalone)</h5>
+          <p>
+            Some libraries, such as Bootstrap, assign '#' to anchors and then capture the click event. When the object is clicked, this adds
+            a history entry. To go back, one must cycle through these hash entries which can be annoying and a unexpected behavior. Avoid code
+            that creates hash entries in the browser's history.
+          </p>
+          <h5>Misc</h5>
+          <ul>
+            <li>
+              All of the above routers, expect standalone, should look at the location when they start and change to the appropriate state on load.
+              This allows links to be stored that take the user directly to the state from which the link was captured.
+            </li>
+            <li>
+              It is a good idea to implement an API to create a URL based on state and parameters. This makes generating links less error
+              prone and removes any guess work.
+            </li>
+            <li>
+              Inside a web app, consider not using any # urls outside of hash router states. Anchor tags won't have an underlined link look
+              if nothing is assigned to the href attribute. This is why many people assign '#' and then add a click handler. I would avoid
+              this altogether. You can always style text to look like an anchor or link.
+            </li>
+            <li>
+              Consider not having one big page with anchor points. Instead, use multiple router pages to display the info and avoid hash
+              anchor points all together.
+            </li>
+          </ul>
+          <h4>Final Design</h4>
+          <ul>
+            <li>
+              I decided to rule out the HTML5 router. Not being able to use links, anchors, and href will just make it to painful to use.
+            </li>
+            <li>
+              Because Hash, Location, and Standalone are very similar, for maximum flexability I implemented all three routing in one class.
+              The type of router is just a configuration item.
+            </li>
+            <li>
+              To prevent issues with servers having to be specially configured, I am going to store the route state as a url param so the
+              server will always try to serve the same location.
+            </li>
+          </ul>
+          <p>
+            <button attach="back" type="button" class="btn btn-outline-primary">Back</button>
+            <button attach="next" type="button" class="btn btn-outline-primary">Home</button>
+          </p>
+        </div>
+      `);
+      const router = this.router;
+      this.attachments.back.addEventListener('click', () => router.back());
+      this.attachments.next.addEventListener('click', () => router.go(router.createUrl(States.HOME)));
+      return this;
+    }
+  }
