@@ -35,9 +35,9 @@ import { States }  from './app';
   <div style="margin-left: 10px;">
     <h4>Typescript</h4>
     <p>
-    When I use write code fro the web, I really enjoy using Typescript.
+    When I write code for the web, I really enjoy using Typescript.
     Type checking is wonderful thing and it allows editors such as Visual Studio Code to auto-complete code. It also helps eliminate run-time errors, build scalable code,
-    and allow editors to have built in as you type linters. Everytime I have to go back and write normal Javascript, it is a painful experience and I realize what
+    and allows editors to have built in as you type linters. Everytime I have to go back and write normal Javascript, it is a painful experience and I realize what
     a beautiful thing strong typing is.
     <p>
     Typescript builds off of ES6 features and brings templated strings, promises, classes and a host of new language features that are amazing editions to the language.
@@ -60,7 +60,7 @@ import { States }  from './app';
   </div>
   <h2> React and Angular </h2>
   <p>
-    While React and Angular solve a lot of problems and are amazing, but I still find myself having issues:
+    While React and Angular solve a lot of problems and are amazing, I still find myself having issues:
   </p>
   <ul>
     <li>
