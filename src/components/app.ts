@@ -2,6 +2,7 @@ import { createRouter, Component, StateInfo } from 'viage';
 import { Why } from './why';
 import { Home } from './home';
 import { NavBar } from './nav-bar';
+import { Footer } from './footer';
 import { Faq } from './faq';
 import { Api } from './api';
 import { RouterPage } from './router-page';
@@ -23,6 +24,7 @@ export enum States {
 export class App extends Component {
 
   title = "Viage";
+  footerDrawn = false;
 
   constructor() {
     super('app');
@@ -32,10 +34,9 @@ export class App extends Component {
     this.attach('page', true);
     this.setHTML(`
       <div attach="toolbar"></div>
-      <div attach="portal"></div>
+      <div class="portal" attach="portal"></div>
     `);
-
-      // create and configure the router
+    // create and configure the router
     const router = createRouter('main', this.attachments.portal, 'HASH');
     router.addStates([
       { name: States.HOME, component: Home,  type: 'DEFAULT' },
@@ -49,14 +50,22 @@ export class App extends Component {
     ]);
     // add a animation handler for router state changes
     router.setStateChangedCallback((stateInfo: StateInfo) => this.stateChanged(stateInfo));
-
+    this.setRouter(router);
     // start off by going to the state the page was loaded on
     router.start();
     // create the toolbar component
     const navbar = this.createComponent(NavBar);
-    navbar.setRouter(router);
     navbar.init().attach(this.attachments.toolbar);
     return this;
+  }
+  drawFooter() {
+    // create a footer
+    if (!this.footerDrawn) {
+      const footer = this.createComponent(Footer);
+      footer.init();
+      this.e.appendChild(footer.e);
+      this.footerDrawn = true;
+    }
   }
   stateChanged(stateInfo: StateInfo): Promise<void> {
     return  new Promise((resolve) => {
@@ -68,6 +77,7 @@ export class App extends Component {
         // reset the scroll bar on nav
         window.scrollTo(0,0);
         resolve();
+        this.drawFooter();
         portal.classList.add('fadein');
       }, 250);
     });
