@@ -15,6 +15,7 @@
   "devDependencies": {
     "@types/jest": "^23.3.1",
     "clean-webpack-plugin": "^0.1.19",
+    "code-prettify": "^0.1.0",
     "css-loader": "^0.28.11",
     "express": "^4.16.3",
     "file-loader": "^2.0.0",

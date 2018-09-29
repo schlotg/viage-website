@@ -1,3 +1,5 @@
+import 'code-prettify/loader/run_prettify';
+import 'code-prettify/loader/run_prettify';
 import { App } from './components/app';
 import './index.css';
 import { isCompatible } from 'viage';

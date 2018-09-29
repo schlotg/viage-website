@@ -3,7 +3,7 @@ import * as logo from '../images/logo.png';
 import { States } from './app';
   export class NavBar extends Component {
 
-    initialized = false;
+    open = false;
 
     constructor() {
       super('nav-bar');
@@ -54,13 +54,14 @@ import { States } from './app';
            </ul>
         </div>
       </nav>`);
+      const button = this.getAttachment<HTMLButtonElement>('menuButton');
+      button.addEventListener('click', () => {this.open = !this.open});
       return this;
     }
     close() {
-      const button = this.attachments.menuButton as HTMLButtonElement;
-      if (!button.classList.contains('collapsed') && this.initialized) {
+      const button = this.getAttachment<HTMLButtonElement>('menuButton');
+      if (this.open) {
         button.dispatchEvent(new CustomEvent('click', {bubbles: true}));
       }
-      this.initialized = true;
     }
   }

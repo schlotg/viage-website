@@ -73,7 +73,7 @@ export class App extends Component {
       portal.classList.remove('fadeout');
       portal.classList.remove('fadein');
       portal.classList.add('fadeout');
-      const navBar = this.components.navBar as NavBar;
+      const navBar = this.getComponent<NavBar>('navBar');
       navBar.close();
       setTimeout(() => {
         // reset the scroll bar on nav
