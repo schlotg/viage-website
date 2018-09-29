@@ -21,15 +21,23 @@ updateList(){
 
 const code2 =
 `
-export class Listener {
-  private cb: any;
-  private e: HTMLElement;
-  private event: string;
-  constructor (e: any, event: string, cb: any) {
-    this.cb = cb;
-    this.e = e as HTMLElement;
+export interface ListenerCallback<T> {
+  (data: T): void;
+};
+
+export class Listener<T> {
+  protected cb: any;
+  protected e: HTMLElement | Window;
+  protected event: string;
+  protected static counter = 0;
+  protected id: number;
+  constructor (element: HTMLElement | Window, event: string, cb: ListenerCallback<T>) {
+    this.cb = (e: CustomEvent) => cb(<T>e.detail);
+    this.e = element;
     this.event = event;
-    this.e.addEventListener(event, cb);
+    this.e.addEventListener(event, this.cb);
+    Listener.counter += 1;
+    this.id = Listener.counter;
   }
   remove() {
     if (this.e) {
@@ -37,6 +45,12 @@ export class Listener {
       this.e = null;
       this.cb = null;
     }
+  }
+  isRemoved(): boolean {
+    return !this.e;
+  }
+  getId(): number {
+    return this.id;
   }
 }
 `;
@@ -178,65 +192,96 @@ if (isCompatible()) {
               </li>
             </ul>
           </p>
+
+          <h4>ForEachCb</h4>
+          <p>
+            ForEachCb is a callback definition that is used in the Component's forEach helper functions. It is defined as:
+          </p>
+          <pre clss="code">${pp('export type ForEachCb = (e: any) => void;', 'js')}</pre>
+
           <h4>Element</h4>
           <p>
             Each component has a element whose named gets passed down through the constructor. You can access it via <b>this.e</b>.
             A call to <b>attach()</b> will append this element into the element to be attached to.
           </p>
-          <h4 class="function">addServiceListener<A extends Service>(service: A, event: string, cb: any)</h4>
+
+          <h4 class="function">addServiceListener&#60T&#62(service: Service, event: string, cb: ListenerCallback&#60T&#62): Listener&#60T&#62</h4>
           <p>
             This adds an event listener to a service. This will automatically be removed when the component gets destroyed.
             This uses a intermediate class that manages the intricacies of the <b>addEventListener()</b> API and its difficulties with
             classes and arrow functions.
-            <pre class="code">${pp(`this.addServiceListener(ShoppingListService, 'update', () => this.updateList());`, 'js')}</pre>
+            <pre class="code">${pp(`this.addServiceListener<Data>(ShoppingListService, 'update', (d: Data) => this.updateList());`, 'js')}</pre>
             The resultant intermediate class is stored in <b>this.serviceListeners</b>
           </p>
+
           <h4 class="function">attach(attachPoint: HTMLElement | string, replace?: boolean)</h4>
           <p>
             Allows a component to attach itself to another element. You can pass in the element to attach to, or a selector string.
             The optional replace parameter replaces the inner contents of an element, otherwise it is appended to the end.
           </p>
+
           <h4 class="function">clearComponents()</h4>
           <p>
             Clears out all the created Components
           </p>
+
           <h4 class="function">protected clearHTML()</h4>
           <p>
             Sets the HTML of the component to an empty string and clears out the attachments member
           </p>
-          <h4 class="function">createComponent<A extends Component>(c: new () => A, name?: string): A</h4>
+
+          <h4 class="function">createComponent&#60A extends Component&#62(c: new () => A, name?: string): A</h4>
           <p>
             This function creates a child component and automatically adds it to <b>this.components</b> . If the optional name
-            parameter is not used then an id is created and the it is added to the <b>this.components</b> object using the id as
+            parameter is not used, an id is created and the it is added to the <b>this.components</b> object using the id as
             a key. If the owning class has a router configured, it is assigned to class created using this function.
             <pre class="code">${pp(code1, 'js')}</pre>
           </p>
+
           <h4 class="function">destroyComponent(name: string)</h4>
           <p>
             Destroy a created Component by name
           </p>
-          <h4 class="function">forEachAttachments(cb: forEachCB)</h4>
+
+          <h4 class="function">forEachAttachments(cb: ForEachCb)</h4>
           <p>
             This is a helper function that allows you to apply a callback function on each of the attachments
           </p>
-          <h4 class="function">forEachComponents(cb: forEachCB)</h4>
+
+          <h4 class="function">forEachComponents(cb: ForEachCb)</h4>
           <p>
             This is a helper function that allows you to apply a callback function on all of the child components
           </p>
+
+          <h4 class="function">getAttachment&#60T extends HTMLElement&#62(name: string): T</h4>
+          <p>
+            Gets a attachement by name and returns with the correct typing:
+          </p>
+          <pre class="code">${pp(`const button = this.getAttachment&#60HTMLButton&#62('submit');`, 'js')}</pre>
+
+          <h4 class="function">getComponent&#60T extends Component&#62(name: string): T</h4>
+          <p>
+            Gets a component by name and returns with the correct typing:
+          </p>
+          <pre class="code">${pp(`const myComponent = this.getComponent&#60MyComponent&#62('myComponent')`, 'js')}</pre>
+
           <h4 class="function">getId(): string</h4>
           <p>
             Returns the unique ID associated with this component. Every component has its own unique ID that is generated
             when it is created.
           </p>
+
           <h4 class="function">release()</h4>
           <p>
             This function is called by the system and can be called manually to destroy and cleanup the component. This will
             release any references to other components and call a destroy function in the class if it exists.
           </p>
+
           <h4 class="function">removeListener(target: Listener)</h4>
           <p>
             This takes a listener, calls remove on it and removes this instance from the list of listneners in the component.
           </p>
+
           <h4 class="function">protected setHTML(html: string)</h4>
           <p>
             This will replace the HTML associated with the components element. It will add any elements in the HTML that have
@@ -244,20 +289,25 @@ if (isCompatible()) {
             <pre class="code">${pp('&#60div attach="container"&#62&#60/div&#62', 'html')}</pre>
             <b>this.attachments.container</b> will contain the element specified above.
           </p>
+
           <h2>Service</h2>
           <p>
             All services must derive off of the Service base class. This class gives you the following functionality:
           </p>
-          <h4 class="function">addEventListener(event: string, cb: any) : Listener</h4>
+
+          <h4 class="function">addEventListener&#60T&#62(event: string, cb: ListenerCallback&#60T&#62) : Listener&#60T&#62</h4>
           <p>
             The Service base class creates a private element that lets listeners attach. This function adds an event listener
             to an event. It returns the intermediate listener class. If using a component to listen to a service, user the components
             <b>addServiceListener()</b>
           </p>
-          <h4 class="function">dispatchEvent(_event: string, data: any)</h4>
+
+          <h4 class="function">dispatchEvent&#60T&#62(eventName: string, data: T)</h4>
           <p>
             Dispatch event lets you dispatch a custom event with data to all your listeners
           </p>
+          <pre class="code">${pp(`this.dispatchEvent&#60Item[]&#62('update', this.list);`, 'js')}</pre>
+
           <h2>Listener</h2>
           <p>
             The intermediate listener class takes care of all the intricacies of the addEventListener API.
@@ -338,6 +388,7 @@ if (isCompatible()) {
             </li>
           </ul>
           <h2>Router API</h2>
+
           <h4 class="function">createRouter(name: string, portal: HTMLDivElement | string, type: RouterType)</h4>
           <p>
             This creates a router using the name passed in. The portal is an HTML element that the router will render into and can be an
@@ -346,10 +397,12 @@ if (isCompatible()) {
             When the state is activated, a new Component is allocated, configured with the router (ie this.router will be set to the
             router that created it), and then if it exists, init will be called with the data associated with the URL.
           </p>
+
           <h4 class="function">getRouter(name: string): Router</h4>
           <p>
             Gets a previously created router by name. This allows any component to get any created router.
           </p>
+
           <h4 class="function">addStates(states: State[])</h4>
           <p>
             Where state is defined as:
@@ -364,31 +417,38 @@ if (isCompatible()) {
           <p>
             See the Shopping List Demo for more details.
           </p>
+
           <h4 class="function">back()</h4>
           <p>
             This function goes back to the previous router state. If there was not a previous state then it goes to the default state.
           </p>
+
           <h4 class="function">clearStateChangedCallback()</h4>
           <p>
             Clears a state change callback if set. To set use <b>setStateChangedCallback()</b>
           </p>
+
           <h4 class="function">clearStates()</h4>
           <p>
             Clears out all the existing states in a router.
           </p>
-          <h4 class="function">createUrl<T>(state: string, data?: T): string</h4>
+
+          <h4 class="function">createUrl&#60T&#62(state: string, data?: T): string</h4>
           <p>
             This creates a URL out of a state string and a JSON-able data parameter. The T parameter is the data type being passed in.
             <pre class="code">${pp(code5, 'js')}</pre>
           </p>
+
           <h4 class="function">getName(): string</h4>
           <p>
             Returns the Router's name.
           </p>
+
           <h4 class="function">getType(): string</h4>
           <p>
             Returns the Router's type.
           </p>
+
           <h4 class="function">go(url: string)</h4>
           <p>
             This function allows manual triggering of a state change. Use the **createUrl()** function to generate the URL.
@@ -396,10 +456,12 @@ if (isCompatible()) {
             For Location and Hash routers, you can also trigger a state change by using setting links, setting location.href,
             by using the back and forward browser buttons, and by calling <b>back()</b>.
           </p>
+
           <h4 class="function">removeState(name: string)</h4>
           <p>
             This function allows you to remove a state by name.
           </p>
+
           <h4 class="function">setStateChangedCallback(cb: StateChangedCallback)</h4>
           <p>
             This function allows you to install a callback that gets fired everytime there is a state change. The callback
@@ -413,11 +475,13 @@ if (isCompatible()) {
             <pre class="code">${pp(code7, 'js')}</pre>
             For more information see the Viage Shopping List tutorial
           </p>
+
           <h4 class="function">start()</h4>
           <p>
             Tells a router to activate itself and start routing. This should be called as soon as the Router is configured.
           </p>
           <h2>Misc</h2>
+
           <h4 class="function">isCompatible(): boolean</h4>
           <p>
             This is a quick and dirty function to detect if the browser is IE. While not an exhaustive compatability check,

@@ -2,6 +2,9 @@ import { Component } from 'viage';
 import * as logo from '../images/logo.png';
 import { States } from './app';
   export class NavBar extends Component {
+
+    initialized = false;
+
     constructor() {
       super('nav-bar');
     }
@@ -19,7 +22,7 @@ import { States } from './app';
       this.setHTML(`
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href=${home}><img class="logo-brand" src="${logo}"/>iage</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button attach="menuButton" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -52,5 +55,12 @@ import { States } from './app';
         </div>
       </nav>`);
       return this;
+    }
+    close() {
+      const button = this.attachments.menuButton as HTMLButtonElement;
+      if (!button.classList.contains('collapsed') && this.initialized) {
+        button.dispatchEvent(new CustomEvent('click', {bubbles: true}));
+      }
+      this.initialized = true;
     }
   }

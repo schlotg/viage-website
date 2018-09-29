@@ -51,17 +51,17 @@ export class App extends Component {
     // add a animation handler for router state changes
     router.setStateChangedCallback((stateInfo: StateInfo) => this.stateChanged(stateInfo));
     this.setRouter(router);
+    // create the toolbar component
+    const navbar = this.createComponent(NavBar, 'navBar');
+    navbar.init().attach(this.attachments.toolbar);
     // start off by going to the state the page was loaded on
     router.start();
-    // create the toolbar component
-    const navbar = this.createComponent(NavBar);
-    navbar.init().attach(this.attachments.toolbar);
     return this;
   }
   drawFooter() {
     // create a footer
     if (!this.footerDrawn) {
-      const footer = this.createComponent(Footer);
+      const footer = this.createComponent(Footer, 'footer');
       footer.init();
       this.e.appendChild(footer.e);
       this.footerDrawn = true;
@@ -73,6 +73,8 @@ export class App extends Component {
       portal.classList.remove('fadeout');
       portal.classList.remove('fadein');
       portal.classList.add('fadeout');
+      const navBar = this.components.navBar as NavBar;
+      navBar.close();
       setTimeout(() => {
         // reset the scroll bar on nav
         window.scrollTo(0,0);
