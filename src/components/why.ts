@@ -13,8 +13,8 @@ import { States }  from './app';
 <div class="container">
   <h2>Why create Viage?</h2>
   <p>
-  In a world already full of Javascript frameworks, why create another? I have used React, Angular, and Web Components in production environment. Each one has its
-  own set of advantages and disadvantages. But more often than not I find myself wishing for something lenaner and meaner.
+  In a world already full of Javascript frameworks, why create another? I have used React, Angular, and Web Components in production environments. Each one has it's
+  own set of advantages and disadvantages. But more often than not, I find myself wishing for something lenaner and meaner.
   </p>
   <p>
   There are some really great technologies available today in both the toolchains and browers. What if someone built a minimal framework that leveraged the great
