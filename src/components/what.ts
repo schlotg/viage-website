@@ -64,10 +64,11 @@ import { States } from './app';
         <li><a href="https://github.com/schlotg/angular-shopping-list">Angular - Project</a></li>
       </ul>
     </p>
-    <h2>Is Viage small?</h2>
+    <h2>Is Viage Easy?</h2>
     <p>
       I think so. If you compare the React, Angular, and the Viage versions of the Shopping List App. You will see that a similar amount of code had to be
-      written for each framework. It is my opinoin that the Viage version wins at being the smallest and easiest to understand.
+      written for each framework. Viage's classes and API are small. Viage relies on standard web technologies whenever possible and minimizes re-invention.
+      It is my opinion that the Viage version of the Shopping List App wins at being the smallest and easiest to understand.
     </p>
     <h2>What are the advantages of Viage?</h2>
     <p>

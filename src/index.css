@@ -1,4 +1,5 @@
 @import "./home.css";
+
 body {
   margin: 0px;
   font-family: Roboto,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
@@ -41,6 +42,7 @@ nav {z-index: 10}
 }
 .portal {
   margin-bottom: 20px;
+  min-height: calc(100vh - 156px);
 }
 .footer {
   left: 0;
