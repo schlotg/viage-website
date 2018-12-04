@@ -1,0 +1,54 @@
+<div class="page-header">
+    <h1 style="text-align: center">Tutorial: Edit Component</h1>
+</div>
+<div class="container">
+  <h2>Creating the Shopping List Edit Component</h2>
+  <p>
+    The only thing left to in order to have a fully functional app is to add the ability to edit an Item.
+    The Edit functionality is very similar to the Add functionality. The only difference is that when the
+    component initializes it needs to fetch that item's data and pre-populate the editable fields,
+    save needs to save the element and not add it as a new one. It should be easy to take the existing add component
+    and make it configurable enough to do re-use in the Edit state of our single page application.
+  </p>
+  <h2>Add an EDIT State</h2>
+  <p>
+    Much like we did for the ADD state, we will need to modify app.ts to have an EDIT state. Add an EDIT state to the
+    States enum and add an entry in the router states so that your app.ts matches the following:
+  </p>
+  <pre class="code">${this.pp((this.code1), 'javascript')}</pre>
+  <h2>Modifying the Add Component HTML</h2>
+  <p>
+    When the Router instantiates a component for a state change, any parameters that go with the state change
+    are passed in the component's init function as object. We will signal we are in edit mode by passing in an id that the component will
+    use to use to fetch the item from the server. By using a template expression, the parser can evaluate whether params.id
+    exists or not and make the page title reflect the correct state. Modify your shopping-list-add.html file to match
+    the following:
+  </p>
+  <pre class="code">${this.pp(this.escapeHtml(this.code2), 'html')}</pre>
+  <h2>Modifying the Add Component TypeScript</h2>
+  <p>
+    The init function must to be modified to accept router params. The <b>id</b> portion of the parmeters must be passed into
+    the <b>setHTML()</b> call so it can be evaluated when the HTML processes. Next, if an <b>id</b> is present, the item must be fetched
+    from Service and then the input fields updated with the data. Finally, when Save is pressed, if in edit mode,
+    then the Service just needs to save; otherwise it must add a new item. Update shopping-list-add.ts with the code
+    below:
+  </p>
+  <pre class="code">${this.pp((this.code3), 'javascript')}</pre>
+  <h2>Fully Functional</h2>
+  <p>
+    The Shopping List App is now fully functional. Running and editing one of the items in the list will yield a
+    something that looks like the following:
+  </p>
+  <div style="margin-top: 25px;margin-bottom:25px;">
+    <h4 style="text-align: center;color: #0091ff;">Edit State</h4>
+    <img src="${this.img4}" style="width:100%; border-style:solid; border-width:1px">
+  </div>
+  <p>
+    The Shopping List App is functional but it sure could use some style. The next section will cover styling
+    the App and making it responsive.
+  </p>
+  <p>
+    <button attach="prev" type="button" class="btn btn-outline-primary">Add Component</button>
+    <button attach="next" type="button" class="btn btn-outline-primary">Styling</button>
+  </p>
+</div>

@@ -1,0 +1,190 @@
+<div class="page-header">
+  <h1 style="text-align: center">FAQ</h1>
+</div>
+<div class="container">
+  <h2>How do I update Viage?</h2>
+  <p>
+    In the project that you want to update it in, type the following:
+    <pre class="code">${this.pp('npm install --save-dev viage', 'bsh')}</pre>
+  </p>
+  <h2>How do I update the Viage CLI?</h2>
+  <p>
+    From any command line, type the following:
+    <pre class="code">${this.pp('npm install -g viage-cli', 'bsh')}</pre>
+  </p>
+  <h2>How do I add a simple server, so I can test release builds without deploying?</h2>
+  <p>
+    Viage uses the webpack development server for development. This get's launched with the 'npm run start' command.
+    Viage CLI projects also already come with a server to test relese builds. Just type:
+    <pre class="code">${this.pp('npm run build\nnpm run serve', 'bsh')}</pre>
+  </p>
+  <h2>How do I add a Linter?</h2>
+  <p>
+    Open a command line in your project and type:
+    <pre class="code">${this.pp('npm run build\nnpm run serve', 'bsh')}</pre>
+    Add the following to your package.json scripts section:
+    <pre class="code">${this.pp(`"lint": "tslint -c tslint.json 'src/**/*.ts'"`, 'js')}</pre>
+  </p>
+  <p>
+    Now whenever you want to lint type:
+    <pre class="code">${this.pp('npm run lint','bsh')}</pre>
+  </p>
+  <h2>How do I change the favicon?</h2>
+  <p>Replace the favicon.png file in the src folder with your own 32x32 png image with the same name</p>
+  <h2>How do I add Font Awesome to a Viage project?</h2>
+  <p>
+    Open a command line in your project and type:
+    <pre class="code">${this.pp('npm install --save-dev @fortawesome/fontawesome-free', 'bsh')}</pre>
+  </p>
+  <p>
+    Add the following to index.html somewhere in the head:
+    <pre  class="code">${this.pp('&#60link rel="stylesheet" href="css/all.css"&#62', 'html')}</pre>
+  </p>
+  <p>
+    Install the webpack-copy plugin:
+    <pre class="code">${this.pp('npm install --save-dev copy-webpack-plugin', 'bsh')}</pre>
+  </p>
+  <p>
+    Now modify the webpack.common.js file to copy the appropriate font files to the dest folder. In production you will have to serve the font awesome assets that in the dist folder.
+    At the top of the file add:
+    <pre class="code">${this.pp("const CopyWebpackPlugin = require('copy-webpack-plugin');", 'js')}</pre>
+  </p>
+  <p>
+    Under plugins add:
+    <pre class="code">${this.pp(this.code1, 'js')}</pre>
+  </p>
+  <p>
+    Launch the app using npm run start or npm run build
+  </p>
+  <h2>How do I add a webfont to Viage?</h2>
+  <p>
+    I am using examples from <a href="https://fonts.google.com/">https://fonts.google.com/</a>
+  </p>
+  <p>
+    You have the choice of adding an import to the index.css style sheet:
+    <pre class="code">${this.pp("@import url('https://fonts.googleapis.com/css?family=Gaegu');", 'js')}</pre>
+  </p>
+  <p>
+    or you can add a style link in index.html. Usually somewhere under the head tag:
+    <pre class="code">${this.pp('&#60link href="https://fonts.googleapis.com/css?family=Gaegu" rel="stylesheet"&#62', 'html')}</pre>
+  </p>
+  <p>Follow the Font's directions for styling specific elements using the Font.</p>
+  <h2>How do I add Bootstrap to a Viage project?</h2>
+  <p>
+    You can of course just add the files to index.html as outlined in <a href="https://getbootstrap.com/docs/4.0/getting-started/introduction/">here</a>.
+    If you want to embedd the code within bundle.js then do the following:
+  </p>
+  <p>
+    Open a command line in your project and type:
+    <pre class="code">${this.pp('npm install --save-dev jquery bootstrap', 'bsh')}</pre>
+  </p>
+  <p>
+    Add the following lines to the top of index.ts:
+    <pre class="code">${this.pp(`import 'bootstrap/dist/css/bootstrap.min.css';\nimport 'jquery/dist/jquery.min.js';\nimport 'bootstrap/dist/js/bootstrap.bundle.js';`, 'js')}</pre>
+  </p>
+  <h2>How do I add a Javascript Library to a Viage project?</h2>
+  <p>
+    If it is hosted publically you can simply add a script tag in src/index.html . Example for jquery:
+    <pre class="code">${this.pp('&#60script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"&#62&#60/script&#62', 'html')}</pre>
+  </p>
+  <p>
+    If you want to embed the library into the bundle.js file, find the NPM module for the library, and in a console in the projects
+    directory type:
+    <pre class="code">${this.pp('npm install --save-dev &#60name of the npm library module&#62', 'bsh')}</pre>
+    <i>Where &#60name of the npm library module&#62 is the npm module name. Example: jquery</i>
+  </p>
+  <p>
+    Next, import the file so that it will be bundled into bundle.js. As an example, for jquery you would add the following line to index.ts:
+    <pre class="code">${this.pp(`import 'jquery/dist/jquery.min.js';`, 'js')}</pre>
+  </p>
+  <h2>How do I add an Image to a Viage Project</h2>
+  <p>
+    Images can be loaded and bundled into bundle.js. When using the url-loader, if the image is less than 8k it is bundled and inlined
+    using base64 encoding. If the image is bigger than 8K then it is hashed, renamed to the hash, and copied to to dist directory.
+    References to that image in index.css files will be automatically altered to match the hashed file name.
+    For Examples on how to do this see the <a href="https://github.com/schlotg/viage-shopping-list">Viage Shopping List Demo app</a>
+  </p>
+  <h5>Here are several ways you can get images into your Viage App:</h5>
+  <ul>
+    <li>
+      <p>
+        Specify the image in your HTML just like normally would. This will cause the browser to load it and you will get no benefits
+        from the url-loader. However you will need to add some mechanism to copy the file into the dist directory on builds.
+        Webpack provides a <a href="https://webpack.js.org/plugins/copy-webpack-plugin/">file-copy-plugin</a> to do just that.
+        It will need to be installed and configured.
+      </p>
+      <i>Note that links to assets already served from another server will just work</i>
+    </li>
+    <li>
+      <p>
+        Reference the file in index.css and add it to a style that can be applied to elements that need the image:
+        <pre class="code">${this.pp('.logo-img {\n   background-color: url("images/logo.png");\n}', 'css')}</pre>
+      </p>
+      <p>
+        In this case the images/logo.png will be automatically grabbed by the url loader and either inlined or copied to the
+        dist folder with a hashed name. The references to this file in index.css will be updated to either the inlined file or
+        to the new hashed name.
+      </p>
+    </li>
+    <li>
+      <p>
+        Inject images into dynamically generated components directly. This is necessary when using images directly in a component's
+        HTML strings. To make this work, import the image at the top of the file and then use the imported reference in the HTML
+        string. In the example below, logo.png is imported into a variable called logo. logo is then used as a template parameter
+        and assigned to the src attribute in an HTML img tag.
+        <pre class="code">${this.pp(this.code2, 'js')}</pre>
+      </p>
+    </li>
+  </ul>
+  <p>
+    If you need to adjust the image inlining setpoint, it can be found in webpack.common.js at this line:
+    <pre class="code">${this.pp(`test: /\.(png|svg|jpg|gif)$/i,\nuse: [ { loader: 'url-loader', options: { limit: 8192 } } ]`, 'js')}</pre>
+  </p>
+  <p>
+    In this case everything below 8K is inlined and everything above will copied to the build directory and referenced.
+  </p>
+  <h2>How do I use HTML files instead of inline strings?</h2>
+  <p>
+    Most of the time you should find that using the ES6 template strings for embedding HTML into components works
+    very well for components that contain very little HTML or where the HTML is procedually generated. This also
+    follows the React model where jsx is the main mechanism for producing inline HTML. However, you do lose IDE
+    support because the IDE doesn't understand that there is HTML in your strings. Occasionally, you also have HTML
+    that is very long, such as HTML involved in writing a tutorial. There are legitimate use cases for breaking
+    out the HTML in seperate files. Luckily Webpack supports the importing of HTML files. If you use the Viage
+    CLI to create your projects, it will create a project already configured so you can write seperate HTML files
+    that will get compiled and loaded into the final bundle. To use them you just need to import them like so:
+    <pre class="code">${this.pp(this.code3)}</pre>
+    Where myhtml.html can contain raw HTML.
+  </p>
+  <p>
+      However, it might be still be necessary to inject values into the HTML and some form of templating is
+      required. To accomplish this one can always uses a library like handlebars but Viage also has a reasonable
+      solution built in. By setting the optional source in the setHTML function, you can access variables in the
+      component class using the 'this' pointer. Consider the following example:
+    </p>
+  <p>
+    test.html
+    <pre class="code">${this.pp('&#60p&#62name:${this.first} ${this.last}&#60/p&#62')}</pre>
+  </p>
+  <p>
+    my-component.ts:
+    <pre class="code">${this.pp(this.code4)}</pre>
+  </p>
+  <p>
+    Additionally, instead of using the Component class's this pointer, you can pass in an object that will be
+    used to supply the data used in evaluation. Consider the following using the same HTML source file as above:
+    <pre class="code">${this.pp(this.code5)}</pre>
+  </p>
+  <p>
+    Notice that in this case, the this.first and this.last references come from the optional object passed in
+    the setHTML() call.
+  </p>
+  <p>
+    Keep in mind that the use of inline back tick strings does not require an evaluation parameter as those are
+    resolved in the code in the declaring function.
+  </p>
+  <p>
+    <button attach="back" type="button" class="btn btn-outline-primary">Back</button>
+    <button attach="next" type="button" class="btn btn-outline-primary">Home</button>
+  </p>
+</div>

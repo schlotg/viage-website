@@ -1,0 +1,54 @@
+<div class="page-header">
+    <h1 style="text-align: center">Tutorial: Shopping List</h1>
+</div>
+<div class="container">
+  <h2>Creating the Shopping List</h2>
+  <p>
+    Now that we can display a single Shopping list item, we need a component that encapsulates the entire
+    Shoppping list. This component will get notified by the service of any changes and then display those changes
+    using ShoppingListItem components. To create this component use the Viage CLI:
+  </p>
+  <pre class="code">${this.pp('viage component shopping-list', 'bsh')}</pre>
+  <p>
+    Next, copy the and past the following code into shopping-list.ts:
+  </p>
+  <pre class="code">${this.pp(this.escapeHtml(this.code1), 'javascript')}</pre>
+  <h2>Registering with the Service</h2>
+  <p>
+    In this Component, you'll notice that instead of using a seperate HTML file, the HTML for this component is inlined
+    using Javascript template strings which allows template parameters and lets the string span multiple lines.
+    Notice in the HTML there is an attachment called 'list'. This will be a container object that will hold all the items
+    in the shopping list.
+  </p>
+  <p>
+    The <b>updateList()</b> function ensures that this component reflects the Shopping List items state stored in the
+    service. It is called initially and then added as an event handler to the ShoppingListService update event.
+    Recall that the service posts this event everytime there is a change to the list.
+  </p>
+  <pre class="code">${this.pp("this.dispatchEvent<Item[]>('update', this.list);", 'javascript')}</pre>
+  <h2>Updating the List</h2>
+  <p>
+    When <b>updateList</b> is called, the first thing it does is clear the list of internal components. Then the
+    internal HTML for the list container is cleared. Next, the <b>ShoppingListService.forEach()</b> method is called. This
+    iterates through the current shopping list one item at a time. For each item, a <b>ShopingListItem</b> is created and
+    initialized with the items contents. It is then atttached to the container object in this component's HTML.
+  </p>
+  <p>
+    Child components should be created using the Component's function <b>createComponent()</b>.
+    This puts it in a list in the parent component, so when the parent is destroyed it will call destroy on the children
+    and properly cleanup.
+    The <b>attach()</b> function adds the component as a child to the DOM element it is being attached to. Under the hood, it
+    calls <b>appendChild()</b> on the element being attached to.
+  </p>
+  <h2>Connecting Everything Up</h2>
+  <p>
+    We have built a ShoppingList Service, a ShoppingListElement component, and a ShoppingList component.
+    To tie all this together we will need to use the Router. Viage supplies a small but powerful router that will
+    allow our App to be a single page application or SPA. In the next section we will connect it all together using the
+    Viage Router.
+  </p>
+  <p>
+    <button attach="prev" type="button" class="btn btn-outline-primary">Shopping List Element</button>
+    <button attach="next" type="button" class="btn btn-outline-primary">Routing</button>
+  </p>
+</div>

@@ -1,0 +1,102 @@
+<div class="page-header">
+  <h1 style="text-align: center">Components</h1>
+</div>
+<div class="container">
+  <h2>What are Components</h2>
+  <p>
+    This should be a familiar paradigm for users of React, Angular, Web Components, and many other frameworks.
+    A Component owns a collection of HTML and logic to make some usable object that can be used in the browser.
+    It is desirable to make a component as reusable as possible to maximize code reuse.
+    Components are often owners of other components. Components must be created in TypeScript and added to other
+    components or attached to existing HTML elements to render into.
+  </p>
+  <p>
+    Components primarily communicate from the top down through the public methods of each component. They can emit
+    and receive events and generally get and set data by communicating with a service. Components should not be
+    making rest calls or accumulating data, that is the job of a service. Components are the workhorses of Viage.
+  </p>
+  <h2>Building Components</h2>
+  <p>
+    All components must derive off of the Viage Component base class. The easiest way to create one is to use
+    the Viage CLI. In a Component's constructor you must call the base class's constructor with the name of the
+    component. Each component creates an HTML element that will contain any HTML added to it. The tag name will
+    be the name passed into the base class's constructor.
+  </p>
+  <h2>The App Component</h2>
+  <p>
+    Consider the App Component we just created:
+  </p>
+  <pre class="code">${this.pp(this.escapeHtml(this.code1))}</pre>
+  <h3>Component Constructors</h3>
+  <p>
+    The App component extends the Component base class that Viage provides. Notice in the constructor that there
+    is a call to super in which a tag name is set. This call must happen to construct the base class properly.
+    When the component is constructed it creates a HTML DOM element by the tag name specified in super. This element
+    encapsulates any other HTML that is added or manipulated in the Component. When this component gets added to the
+    DOM you will see a DOM element called 'app' if you inspect the DOM tree.
+  </p>
+  <p>
+    Because the DOM is case insensitive, the Viage convention is to use all lowercase names with hyphens to
+    seperate parts of the name. For instance, reallyCoolComponent should use the name: 'really-cool-component'.
+  </p>
+  <h3>Init</h3>
+  <p>
+    Because there are several ways to construct Viage components it is bad practice to do any initialization in the
+    constructor. The constructor really should only call super with the tag name. Initialization should occur in a
+    seperate init function. This allows you to have whatever parameters passed in that you might need to initialize
+    the component and you can return a status if needed.
+  </p>
+  <h4>Setting the Title</h4>
+  <p>
+    This is the topmost component in the App we are about to build. So the first thing that the init function does
+    is find the title element in our base HTML and set it's text content to Shopping List. These are just standard
+    DOM calls that are not part of Viage, but Viage relies heavily on the DOM's built in functionality and does not
+    try to recreate it. That is part of Viage's spirit, to use as much of existing DOM functionality as possible
+    and introduce minimal Viage specific things. It was not that long ago that the DOM APIs varied wildly from browser
+    to browser and libraries like jQuery were absolutely necessary, but now days there is a rich consistent set of
+    DOM APIs that are built in. I encourage you to learn those. But if you want to use jQuery to do all you DOM
+    manipulations you are welcome to use it with Viage. This tutorial will focus on using the built in functionality.
+  </p>
+  <h4>Attaching to a DOM Element</h4>
+  <p>
+    In order for Components to be visible, they must be attached to the DOM in some fashion. We will be going over
+    several ways to do that over the course of this tutorial. The first way is to call the built in component
+    function, <b>attach()</b>. Since it is part of the base class it will need to be called with a <b>'this'</b> reference.
+    This function takes in a CSS style selector as a string or an element reference, and then a optional replace
+    parameter. If you specify 'true' then the component's html will replace any HTML that is in the target element.
+    Other wise the component's HTML will be appended to the target element.
+  </p>
+  <p>
+    In this case, we find the html element 'page' and add our App's element to it. Page is an entry point in the
+    index.html file that the Viage CLI created for us when we created the app.
+  </p>
+  <h4>Adding Component Specific HTML</h4>
+  <p>
+    By calling <b>this.setHTML()</b>, we can add component specific HTML to our App component. For this app we are going to
+    add a h1 tag that contains: 'Shopping List'.
+  </p>
+  <p>
+    Notice the use of ES6 template, or back-tick strings (the character below the tilda on your keyboard).
+    By using the back-tick to encapsulate the strings, we can
+    extend them across multiple lines and use templates. Notice that '\${' starts a template parameter and '}'
+    finishes it. Anything between the braces gets evaluated by the JavaScript engine. In this case we are taking
+    the contents of <b>this.title</b> and embedding it as a string into the back-tick string. The Component function
+    <b>setHTML()</b> will take any string passed into it and set it as the HTML for the component.
+  </p>
+  <p>
+    This allows us to have much of the React JSX functionality without having to go spin off another version of
+    JavaScript. For small chuncks of HTML it is very useful to include them inline with your components. However,
+    It can be convienent to write large swaths of HTML in a seperate HTML and import it and pass it into the
+    setHTML function. Viage supports both and you can even use template parameters in your external HTML.
+    Importing and using external HTML files will be covered in later sections of this tutorial.
+  </p>
+  <h4>Returning this</h4>
+  <p>
+    Generally it is a good idea to return <b>'this'</b> in the init function. This will allow you to chain function calls
+    when initialization your components.
+  </p>
+  <p>
+    <button attach="prev" type="button" class="btn btn-outline-primary">Create the Project</button>
+    <button attach="next" type="button" class="btn btn-outline-primary">Services</button>
+  </p>
+</div>

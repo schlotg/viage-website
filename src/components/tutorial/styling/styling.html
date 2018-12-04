@@ -1,0 +1,98 @@
+<div class="page-header">
+    <h1 style="text-align: center">Tutorial: Edit Component</h1>
+</div>
+<div class="container">
+  <h2>Styling the Shopping List App</h2>
+  <p>
+    Viage uses Webpack functionality to take the contents of the index.css and compile and inline it into the dest/bundle.js file.
+    All global styling should go into the src/index.css file. Unfortunately, the more style rules you have, the bigger your
+    DOM memory footprint and the slower the DOM will be able to render.
+  </p>
+  <p>
+    I recommend using inline styles for specific component functionality and reserve global styles for common styling across multiple components. However, not all CSS features are
+    usable in inline form. Things like psuedo selectors and CSS animations just aren't possible in inline styling.
+  </p>
+  <p>
+    You can also use style tags in a component's HTML. The style rules will be effective across the entire document, so you have to
+    be careful on your selector choices, but when the component goes away it's specific styling gets removed from the DOM.
+  </p>
+  <h2>Using Style Tags in a Component's HTML</h2>
+  <p>
+    To add component level styling just use normal style tags in your components HTML. Here is a simple example:
+  </p>
+  <pre class="code">${this.pp(this.escapeHtml(this.code1), 'html')}</pre>
+  <p>
+      In this example you can see a style tag that will be applied to <b>shopping-list-element</b> and some inline style in the
+      <b>div list container</b>. All normal CSS rules apply and all CSS features are available as Viage does nothing to get in
+      the way of the DOM's CSS processor.
+  </p>
+  <h2>Adding Images</h2>
+  <p>
+    Viage relies on Webpack and its plugins to manage images. You basically have 3 options when it comes to using images with Viage:
+  </p>
+  <ol>
+    <li>Manage the images on the server by manually copying them into directory they will be served from</li>
+    <li>Reference them in index.css and Webpack will automatically embed them or copy them to the dist/ folder when
+      you do a build
+    </li>
+    <li>
+      Import them in a Component and then reference the image as variable in a template. Webpack will copy the image
+      or embed it depending on its size.
+    </li>
+  </ol>
+  <p>
+    This tutorial will use both the CSS and importing mechanisms to demonstrate.
+  </p>
+  <h2>Importing Images</h2>
+  <p>
+    To spruce things up, we will add the Viage Logo to the <b>ShoppingList</b> Component and the <b>ShoppingListAdd</b> Component. To add it to the
+    <b>ShoppingListAdd</b> Component, modify the it's HTML to match the following:
+  </p>
+  <pre class="code">${this.pp(this.escapeHtml(this.code2), 'html')}</pre>
+  <p>
+    Next we need to import it into the component's TypeScript and then pass it as a parameter into the setHTML() call:
+  </p>
+  <pre class="code">${this.pp((this.code3), 'javascript')}</pre>
+  <p>
+    To download the image, right click <a href="${this.logo}">here</a> and save it to src/assets/logo.png
+  </p>
+  <h2>Reference an Image via CSS</h2>
+  <p>
+    Next will add an image via a style entry in index.css. We will create a div element that will have class that will
+    have a style that sets the background image to the logo.png image. Copy and paste the following into shopping-list.ts:
+  </p>
+  <pre class="code">${this.pp((this.code4), 'javascript')}</pre>
+  <p>
+    Now add some CSS to index.css. This will get compiled into the bundle. If you examine the .logo-img definition,
+    it will contain a reference to logo.png. This CSS also contains other definitions to make the app look nice and be
+    responsive and look good on mobile devices. This is all just standard CSS. Copy and paste the following code into
+    index.css:
+  </p>
+  <pre class="code">${this.pp((this.code5), 'css')}</pre>
+  <h2>Responsive</h2>
+  <p>
+    To make the App fully responsive we need to modify the ShoppingListElement Component. This is because the layout
+    in mobile is much different then the layout in desktop. Depending on the width of the viewport we will hide
+    one verison of the element and show the other version. This adds to the complexity of the component slightly. This
+    is not something unique to Viage, any framework that allows responsive elements will need to do similar things.
+    Please copy and paste the following HTML changes to shopping-list-element.html:
+  </p>
+  <pre class="code">${this.pp(this.escapeHtml(this.code6), 'html')}</pre>
+  <p>
+    Next, copy the following changes into shopping-list-element.ts:
+  </p>
+  <pre class="code">${this.pp(this.escapeHtml(this.code7), 'javascript')}</pre>
+  <h2>Fully Styled</h2>
+  <p>
+    Our App is fully functional and fully styled. It looks good and is responsive so that it can be viewed on a mobile
+    device. Launching the app with all of the changes so far should yield something that looks like this:
+  </p>
+  <div style="margin-top: 25px;margin-bottom:25px;">
+    <h4 style="text-align: center;color: #0091ff;">Styled App</h4>
+    <img src="${this.img5}" style="width:100%; border-style:solid; border-width:1px">
+  </div>
+  <p>
+    <button attach="prev" type="button" class="btn btn-outline-primary">Edit Component</button>
+    <button attach="next" type="button" class="btn btn-outline-primary">Animations</button>
+  </p>
+</div>

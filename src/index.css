@@ -79,3 +79,19 @@ nav {z-index: 10}
   color:white;
   font-weight: 100;
 }
+
+.size-table {
+  width: 100%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  background-color: rgba(0, 148, 255, 0.12);
+}
+.size-table  th {
+  padding:10px;
+}
+.size-table  td {
+  padding:10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: lightgray;
+}

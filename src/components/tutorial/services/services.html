@@ -1,0 +1,76 @@
+<div class="page-header">
+    <h1 style="text-align: center">Tutorial: Services</h1>
+  </div>
+  <div class="container">
+    <p>
+      Services are the way that Components save and retrieve data. They also let Components know that something
+      changed. A typical scenerio is a controlling Component that interacts with a service and then dispatches data
+      changes to its child components that display the data in some way. Much like Components, your services should
+      derive off the Service base class.
+    </p>
+    <h2>Creating a Service</h2>
+    <p>
+      Using the Viage CLI, create a new service by typing the following in a shell in your project's directory:
+    </p>
+    <pre class="code">${this.pp('viage service shopping-list-service', 'bsh')}</pre>
+    <p>
+      This will create a new file at src/services/shopping-list-service.ts. Open this file and it should look
+      like this:
+    </p>
+    <pre class="code">${this.pp(this.code1, 'javascript')}</pre>
+    <p>
+      Looking at the code you will notice that it exports the class definition for the Service and a singleton
+      instance. The singleton instance is what Components should use. The exported class definition is
+      solely for typing purposes.
+    </p>
+    <h2>Defining the Data</h2>
+    <p>
+      One of TypeScript's many benefits is the ability to define interfaces. This can be done in a seperate file
+      if you would prefer, but for the sake of this demo I am going to keep the definition of a Shopping list item
+      in the Service. Let's define it like so:
+    </p>
+    <pre class="code">${this.pp(this.code2, 'javascript')}</pre>
+    <p>
+      Each Shopping list item is going to have a name, description, quantity, and a purchased flag to indicate if
+      it has been purchased or not. The _id field will be used internally by the service to uniquely track each
+      item. We export the interface so it can be used by components interacting with the data.
+    </p>
+    <p>
+      The actual shopping list will be just an array of Items defined above. Normally when fetching and saving,
+      this would be to a database in some server side code. That is beyond the scope of the this tutorial so to
+      keep things easy, will be saving and retrieving the shopping list from the Browser's Local Storage. To do
+      this we will need to generate a unique ID. This be accomplished by some quick and dirty code that takes
+      the timestamp in mills and converts it to hexadecimal. Modify the ShoppingListService so that it looks like so:
+    </p>
+    <pre class="code">${this.pp(this.code3, 'javascript')}</pre>
+    <h2>Setting and Getting Items from the Service</h2>
+    <p>
+      Next, we will add class methods that can save and retrieve the list to and from LocalStorage. LocalStorage
+      operates on strings so it is just a matter of converting the list to a JSON string and back. The rest of this
+      code is just basic array operations to add and remove items from list and keep the copy in LocalStorage
+      updated.
+    </p>
+    <pre class="code">${this.pp(this.code4, 'javascript')}</pre>
+    <h2>Notifying Components of Changes</h2>
+    <p>
+      The last thing we need to do is add the ability to let the components know that something changed. The Service
+      base class has a HTMLElement that is not attached to the DOM. This element is used to post and receive events.
+      The Service base class supports an API to add event listeners and to post events. The ShoppingListService will
+      rely on that functionality to notify and listeners of changes.
+    </p>
+    <p>
+      Since the Save method gets called anytime something changes. All we need to do is add the following changes it.
+      This code will dispatch an 'update' event everytime the shopping lists changes.
+    </p>
+    <pre class="code">${this.pp(this.code5, 'javascript')}</pre>
+    <h2>Complete ShoppingList Service</h2>
+    <p>
+      Here is the completed ShoppingListService with all the changes discussed above.
+    </p>
+    <pre class="code">${this.pp(this.code6, 'javascript')}</pre>
+    <p>
+        <button attach="prev" type="button" class="btn btn-outline-primary">Components</button>
+        <button attach="next" type="button" class="btn btn-outline-primary">Shopping List Element</button>
+    </p>
+  </div>
+</div>

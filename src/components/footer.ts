@@ -11,7 +11,7 @@ import { States } from './app';
       const what = this.router.createUrl(States.WHAT);
       const gettingStarted = this.router.createUrl(States.GETTING_STARTED);
       const api = this.router.createUrl(States.API);
-      const tutorial = this.router.createUrl(States.TUTORIAL);
+      const tutorial = this.router.createUrl(States.TUTORIAL_INTRODUCTION);
       const faq = this.router.createUrl(States.FAQ);
 
       this.e.classList.add('footer');

@@ -1,0 +1,69 @@
+<div class="page-header">
+  <h1 style="text-align: center">Tutorial: Creating the Application</h1>
+</div>
+<div class="container">
+  <h2>Create the Project</h2>
+  <p>
+    The Viage CLI makes it easy to create a new project quickly. For the sake of this demo,
+    we are going to call our project <b>viage-shopping-list</b>. Open a command prompt or terminal
+    into the directory you want this project created in and type:
+  </p>
+  <pre class="code">${this.pp('viage app viage-shopping-list', 'bsh')}</pre>
+  <p>
+    Once created, change directories to the newly created viage-shopping-list directory.
+  </p>
+  <pre class="code">${this.pp('cd viage-shopping-list', 'bsh')}</pre>
+  <h2>Run the App</h2>
+  <p>
+    The Viage CLI has created a new project that uses Webpack, TypeScript, and the Viage base classes to
+    create a simple App that is easy to build off of. To test that everything is working correctly, in a
+    command prompt or terminal type:
+  </p>
+  <pre class="code">${this.pp('npm run start', 'bsh')}</pre>
+  <p>
+    If you look inside the package.json file you will see three entries under scripts: <b>build</b>,
+    <b>build-embedded</b>, and <b>start</b>. 'build' does a release build, 'build-embedded' inlines the
+    source into the HTML and 'start' builds in debug and launches the debug webserver to serve up the
+    app. As you make changes to the code, it will automatically recompile and serve the changes to the
+    browser.
+  </p>
+  <p>
+    Your default browser should have opened a new tab with the Viage app running in it. If not you can
+    always go to: <a href="http://localhost:8080/">http://localhost:8080/</a>
+  </p>
+  <p>
+    You should see "Hello From Viage" in the browser. If you are running IE-11 or a really old browser you
+    will see a message stating that your browser is not supported
+  </p>
+  <h2>Change the Title</h2>
+  <p>
+    Components draw and interact with the user. Services are singletons that are responsible for managing
+    data. Components usually live in the src/components directory, but you may organize them however you
+    want as long as they are still somewhere in the src directory. This is also true of Services, they
+    generally live in the src/services directory.
+  </p>
+  <p>
+    When code is compiled, it is compiled to a single dest/bundle.js file. When using the start command
+    you won't see the dest folder as the development server sends the output elsewhere. However, if you
+    compile using the 'npm run build' command, you will see the dest folder populated with the freshly
+    compiled **bundle.js** file.
+  </p>
+  <p>
+    In your favorite editor, I recommend <a href="https://code.visualstudio.com/">Visual Studio Code</a>,
+    open up the src/components/app.ts file and inside your projects directory change:
+  </p>
+  <pre class="code">${this.pp('private title = \'Hello From Viage\';', 'javascript')}</pre>
+  <p>
+    to:
+  </p>
+  <pre class="code">${this.pp('private title = \'Shopping List\';', 'javascript')}</pre>
+  <p>
+    Save your changes and you should see your app instantly update in the browser. Make your code
+    look like the following:
+  </p>
+  <pre class="code">${this.pp(this.escapeHtml(this.code1))}</pre>
+  <p>
+    <button attach="prev" type="button" class="btn btn-outline-primary">Introduction</button>
+    <button attach="next" type="button" class="btn btn-outline-primary">Components</button>
+  </p>
+</div>

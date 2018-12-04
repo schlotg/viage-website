@@ -1,0 +1,55 @@
+<div class="page-header">
+    <h1 style="text-align: center">Tutorial: Router</h1>
+</div>
+<div class="container">
+  <h2>The Viage Router</h2>
+  <p>
+    The Viage Router is small but powerful. It supports 3 different modes, Hash, Location, and Standalone. This Tutorial
+    will use the Hash mode which will require no page reloads as the App switches between views. You can read more about it
+    on the <a href="${this.routerApiLink}">API Page</a>
+  </p>
+  <p>
+    You should always use the the <b>createUrl()</b> function to create the URLs and not try to form URLs yourself.
+    This helps keep your code immune to Viage upgrades and helps prevent malformed links. This also enables you to
+    change the router type without having to change any URLs.
+  </p>
+  <h2>Setting up the Router</h2>
+  <p>
+      Modify the code in src/components/app.ts so it looks like the following:
+  </p>
+  <pre class="code">${this.pp((this.code1), 'javascript')}</pre>
+  <p>
+    The first change to note is an import statement to import the <b>createRouter()</b> function from Viage, along with importing the
+    ShoppingList component. Next, we define a enum for the Home routing state. This will be a view that contains the current shopping list
+  </p>
+  <h2>Creating the Router</h2>
+  <p>
+    The call to createRouter requires a name, an HTML element to render into, and the type. In this case we name the router
+    <b>main</b> and give it the attached element <b>portal</b>. You'll notice that we are using a HASH router but this could
+    be a STANDALONE or LOCATION router as well.
+  </p>
+  <h2>Adding States to the Router</h2>
+  <p>
+    To add states or routes to the router, we call the <b>addStates()</b> function. This takes an array of states. Each State
+    consists of a name, a component to render, and a mode: 'DEFAULT' or 'NORMAL'. There can be only one DEFAULT state.
+  </p>
+  <h2>Starting the Router</h2>
+  <p>
+    Finally we need to start the Router and that is accomplished with a call to <b>start()</b>. When the Router is started
+    it will look at the current URL and try to match a router state to the URL. If it can't find one, then it will use the DEFAULT
+    state. Once the Router has determined which state it is in, it will create the component associated with it, call init(), and
+    attach it to the portal. In this case, the ShoppingList component will be the rendered into the <b>portal</b> DOM element.
+  </p>
+  <h2>What we Accomplished</h2>
+  <p>
+    The Shopping List App can now render the ShoppingList Component which in turn displays the contents of the
+    shopping list stored in browser's local storage. This is done via the ShoppingListService. Granted it is
+    not much to look at because there is nothing in our list, and we don't have a mechanism to add items. In
+    the next section we will build the ShoppingListAdd component and finally be able interact with the app and see
+    it in action.
+  </p>
+  <p>
+    <button attach="prev" type="button" class="btn btn-outline-primary">Shopping List</button>
+    <button attach="next" type="button" class="btn btn-outline-primary">Add Component</button>
+  </p>
+</div>

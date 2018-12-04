@@ -1,25 +1,8 @@
-import { createRouter, Component, StateInfo } from 'viage';
-import { Why } from './why';
-import { Home } from './home';
-import { NavBar } from './nav-bar';
+import { Component, StateInfo } from 'viage';
+import { NavBar } from './nav-bar/nav-bar';
 import { Footer } from './footer';
-import { Faq } from './faq';
-import { Api } from './api';
-import { RouterPage } from './router-page';
-import { Tutorial } from './tutorial';
-import { What } from './what';
-import { GettingStarted } from './getting-started';
-
-export enum States {
-  HOME = 'home',
-  WHY = 'why',
-  WHAT = 'what',
-  GETTING_STARTED = 'getting_started',
-  FAQ = 'faq',
-  API = 'api',
-  ROUTER = 'router',
-  TUTORIAL = 'tutorial'
-};
+import { initRouter, States } from './router-states';
+export { States } ;
 
 export class App extends Component {
 
@@ -29,6 +12,7 @@ export class App extends Component {
   constructor() {
     super('app');
   }
+
   init() {
     document.querySelector('title').textContent = this.title;
     this.attach('page', true);
@@ -36,18 +20,8 @@ export class App extends Component {
       <div attach="toolbar"></div>
       <div class="portal" attach="portal"></div>
     `);
-    // create and configure the router
-    const router = createRouter('main', this.attachments.portal, 'HASH');
-    router.addStates([
-      { name: States.HOME, component: Home,  type: 'DEFAULT' },
-      { name: States.WHY, component: Why,  type: 'NORMAL' },
-      { name: States.WHAT, component: What,  type: 'NORMAL' },
-      { name: States.GETTING_STARTED, component: GettingStarted,  type: 'NORMAL' },
-      { name: States.FAQ, component: Faq,  type: 'NORMAL' },
-      { name: States.API, component: Api,  type: 'NORMAL' },
-      { name: States.ROUTER, component: RouterPage,  type: 'NORMAL' },
-      { name: States.TUTORIAL, component: Tutorial,  type: 'NORMAL' },
-    ]);
+
+    const router = initRouter(this.attachments.portal);
     // add a animation handler for router state changes
     router.setStateChangedCallback((stateInfo: StateInfo) => this.stateChanged(stateInfo));
     this.setRouter(router);
@@ -58,6 +32,7 @@ export class App extends Component {
     router.start();
     return this;
   }
+
   drawFooter() {
     // create a footer
     if (!this.footerDrawn) {
@@ -67,6 +42,7 @@ export class App extends Component {
       this.footerDrawn = true;
     }
   }
+
   stateChanged(stateInfo: StateInfo): Promise<void> {
     return  new Promise((resolve) => {
       const portal = this.attachments.portal;
@@ -84,5 +60,4 @@ export class App extends Component {
       }, 250);
     });
   }
-
 }

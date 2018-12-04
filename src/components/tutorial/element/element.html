@@ -1,0 +1,79 @@
+<div class="page-header">
+    <h1 style="text-align: center">Tutorial: Shopping List Element</h1>
+</div>
+<div class="container">
+  <h2>Creating the Shopping List Element Component</h2>
+  <p>
+    We now need a Component that will display a shopping list entry. This component will be called the
+    <b>ShoppingListElement</b> component. In the next step we will create a component that
+    will hold a list of Shopping List Elements and that will be the <b>ShoppingList</b> Element. We will add some extra
+    HTML in this component that will make it responsive and mobile ready.
+  </p>
+  <p>
+    The Viage CLI makes it easy to create a component. Type the following in a command line in the
+    project directory to scaffold out our <b>ShoppingListElement</b> component:
+  </p>
+  <pre class="code">${this.pp('viage component shopping-list-element', 'bsh')}</pre>
+  <p>
+    This will produce the file: <b>src/components/shopping-list-element.ts</b>. Open the file in an editor and it should look
+    like this:
+  </p>
+  <pre class="code">${this.pp(this.escapeHtml(this.code1, 'javascript'))}</pre>
+  <h2>Breaking the HTML into a seperate file</h2>
+  <p>
+    A good general rule to follow when creating components is that if the HTML is larger than a paragraph,
+    or it makes the component code hard to read, it should be broken out into a seperate file. Otherwise, it is nice
+    to have it inlined so that it is not spread out across several files. In this case, the HTML is small enough that
+    it can be comfortably used inline. However, to demonstrate how to use HTML in a seperate file, we will break it
+    into a seperate file.
+  </p>
+  <p>
+    Create a new file called <b>shopping-list-element.html</b> in the same directory as the <b>shopping-list-element.ts</b>
+    file. In <b>shopping-list-element.html</b>, paste the following code. Note the use of <b>this.purchased</b> used in a
+    template evaluation to check or uncheck the checkbox.
+  </p>
+  <pre class="code">${this.pp(this.escapeHtml(this.code2, 'html'))}</pre>
+  <h2>Attachments and Template parameters</h2>
+  <p>
+    This Component consist of standard HTML with a couple of notable exceptions. Notice the non-standard
+    <b>attach</b> attribute. This tells viage to add them this HTML element to the attachments object built into the
+    owning Component base class when setHTML is called. This makes it easy for Components to interact with thier
+    HTML. Next, you will notice that Viage supports ES6 template strings in external HTML. This is done in a safe
+    manner and evaluated by the browser's built in template string parser. Viage does not re-implement or duplicate this
+    functionality in any way. You can of course use thrid party libraries like handlebars if you prefer.
+  </p>
+  <h2>Modifying the Component</h2>
+  <p>
+    The Component now needs to import the external HTML, add click handlers for element changes, and pass the template
+    parameters to <b>setHTML()</b> so they can be inserted into the HTML.
+    Modify the component to look like the following:
+  </p>
+  <pre class="code">${this.pp(this.code3, 'javascript')}</pre>
+  <p>
+    The Component now has a private member called item. When the init() function is called, the item
+    that this component represents is passed in and set locally. The external HTML file is now imported
+    and then passed in the call to <b>setHTML()</b>. There is an additional object passed in that is used by the
+    template evaluator. In the HTML, the <b>this</b> reference is referring to the object passed in as the second
+    parameter.
+  </p>
+  <h2>Attachments</h2>
+  <p>
+    Viage only has one HTML directive and that is the <b>attach</b> attribute. Attach indicates to Viage that
+    it should get a refence to this DOM object and store it in the components attachments object by the name
+    indicated. If you examine the external HTML used in this component there is an input element with
+    <b>attach="enabled"</b> in it. After <b>setHTML()</b> is called, the built in <b>this.attachments</b> object will contain a
+    reference to this input element with a key name of "enabled". This just makes it easy for the component to directly interact
+    with it's HTML elements. Notice that the <b>enabled</b> and <b>delete</b> DOM elements have a click
+    handler attached to them in the last part of the init() function using the attachments mechanism. The click
+    handlers simply call out to the service to store the enabled state and to delete the item.
+  </p>
+  <p>
+    <b>addEventListener</b> is a standard modern DOM API used to attach listeners to DOM objects. It is well
+    documented and supported across all modern browsers. The Spirit of Viage is to be as minimal as possible
+    and rely heavily on browser functionality that already exists.
+  </p>
+  <p>
+    <button attach="prev" type="button" class="btn btn-outline-primary">Services</button>
+    <button attach="next" type="button" class="btn btn-outline-primary">Shopping List</button>
+  </p>
+</div>

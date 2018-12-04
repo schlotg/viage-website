@@ -1,0 +1,45 @@
+<div class="page-header">
+  <h1 style="text-align: center">Tutorial: Introduction</h1>
+</div>
+<div class="container">
+  <p>
+    This tutorial walks through the building of a simple Shopping List App. In order to keep this tutorial
+    simple and all about the Viage framework, the actual shopping list will be stored the browser's Local Storage instead
+    of a server side database. It should not be difficult to adapt the service to make Restful API calls
+    instead of storing and fetching from Local Storage. This tutorial assumes you have Nodejs installed and
+    the latest version of the Viage CLI installed. If not, click on <a href="${this.gettingStarted}"> Getting Started </a> and follow
+    the instructions to install the Viage CLI. You can get out a working version of the final product at:
+    <a href="https://schlotg.github.io/shopping-list.html#home">Shopping List App</a> and the github project
+    for this tutorial is located at: <a href="https://github.com/schlotg/viage-shopping-list">Shopping List Project</a>
+  </p>
+  <h2>What we are building</h2>
+  <p>
+    This web app will consist of a single page application that uses the Viage Router to provide 3 different views
+    into the shopping list:
+  </p>
+  <ol>
+    <li> Home - Provides a view of all the current list items </li>
+    <li> Add - Provides a view to create an item to add </li>
+    <li> Edit - Provides a view to edit an item in the list </li>
+  </ol>
+  <h2>Components, Routes, and Services</h2>
+  <p>
+    Viage is a minimal framework in which Apps are made from 3 basic building blocks:
+  </p>
+  <ol>
+    <li> Components - Chunks of code and HTML that provide some sort of UI functionality  </li>
+    <li> Services - A class that provides services to components. This is a singleton and
+    usually provides a mechanism to store and retrieve data. </li>
+    <li> Routes - Configuration data that Viage router uses to change states. Router state changes involve
+    rendering a component into a special portal HTML element </li>
+  </ol>
+  <h2> Command line Interface </h2>
+  <p>
+    Viage comes with a CLI tool that lets you easily scaffold out a new Viage project. It can
+    also be used to create components an services within an existing project. This demo will be relying
+    heavily on the Viage CLI to generate the project and for creation of Components and Services.
+  </p>
+  <p>
+    <button attach="next" type="button" class="btn btn-outline-primary">Creating an App</button>
+  </p>
+</div>

@@ -1,0 +1,72 @@
+<div class="page-header">
+    <h1 style="text-align: center">Tutorial: Animations</h1>
+</div>
+<div class="container">
+  <h2>Animations in Viage</h2>
+  <p>
+      It turns out that there is a fairly comprehensive animation engine built into every modern browser. Viage is unobtrusive enough to not get in the way
+      of using it to as it was intended. You can find a lot of information on the web for CSS animations especially on the MDN website. To illustrate how
+      to use animations in a Viage project, we are going to add them to the Router to fade the current state out and then the new one in. We will use both
+       the CSS animation engine built into browsers and a pure javascript implementation.
+  </p>
+  <h2>Hooking the Router</h2>
+  <p>
+      The Viage Router has an API function called <b>setStateChangedCallback()</b> this function calls your callback when a router state changes are about
+      to happen. It expects a returned Promise in the callback. When <b>resolve()</b> is called on the Promise, it signals the router to go ahead and make the
+      state change. Let's start with hooking the router. Add the following line in bold to the bottom of the App.init() function in app.ts:
+  </p>
+  <pre class="code">${this.pp(this.code1, 'javascript')}</pre>
+  <h2>Adding a State Changed Function</h2>
+  <p>
+    Next we need to add a stateChanged function to our App class. Add the following function to the App class in App.ts:
+  </p>
+  <pre class="code">${this.pp(this.code2, 'javascript')}</pre>
+  <p>
+    If you run the application at this point every time you trigger a Router state change you will see the it's output in the browser's debug console.
+    Incidentally, this is a great way to debug Route State issues. Notice that the callback returns a promise right away but then calls resolve when its
+    ready for the Router state change.
+  </p>
+  <h2>Defining CSS Transition Classes</h2>
+  <p>
+      Add the following CSS styling to index.css. It should already be there if you copy and pasted the styling code into index.css in the previous section:
+  </p>
+  <pre class="code">${this.pp(this.code3, 'css')}</pre>
+  <p>
+      These classes, when attached to a DOM element, will animate from the current opacity value to the target one in .5 seconds. Now all we have to
+      do is add these classes to our portal DOM element. at the right times:
+  </p>
+  <pre class="code">${this.pp(this.code4, 'javascript')}</pre>
+  <p>Notice that when our callback gets called we make sure all the animation classes are removed from the portal element which essentially resets it.
+    Then we add the fadeout animation class which starts the fadeout animation. It is set to take .5 seconds so we set a timeout for 500ms. When this
+    timeout fires it triggers the actual Router state change by call resolve() on the Promise, and then starts the fadein animation by attaching the
+    fadein class. You can also use CSS animation events to trigger the fade in.
+  </p>
+  <h2>Animating Using TypeScript Only</h2>
+  <p>
+    Of course you can animated just using Typescript as well. To do this we will need to create an animation loop that adjusts the values of opacity
+    on each iteration. To do that we will utilize the standard DOM API <b>requestAnimationFrame()</b>. Replace the stateChanged function defined above
+    with the two functions listed below:
+  </p>
+  <pre class="code">${this.pp(this.code5, 'javascript')}</pre>
+  <p>
+    Additionally you will need to add alpha and inc as members to the App class like so:
+  </p>
+  <pre class="code">${this.pp(this.code6, 'javascript')}</pre>
+  <p>
+    When stateChanged gets called it resets the aplha and inc variables to their initial state and then calls <b>animate().</b> This function
+    continually calls itself until it has animated the alpha value to zero and then back up to 1. When the value reaches 0 it also triggers the
+    actual state change by calling resolve.
+  </p>
+  <h2>Wrap Up</h2>
+  <p>
+    Both animation types work pretty well and it is just a matter of user preference as which one to use. I personally lean towards using CSS
+    transitions as they are res-usable and easy to adjust in a style sheet. You can also use any animation library like Green Sock, etc...
+    The important thing to note is that Viage does not re-implement anything. The only Viage API used in this section is the Router hook
+    that allows you to attach and trigger animations during router state changes. The exact code used above is used in this page to implement
+    the fade-out / fadein effect between tutorial sections.
+  </p>
+  <p>
+    <button attach="prev" type="button" class="btn btn-outline-primary">Styling</button>
+    <button attach="next" type="button" class="btn btn-outline-primary">Conclusion</button>
+  </p>
+</div>

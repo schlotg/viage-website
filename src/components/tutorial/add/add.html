@@ -1,0 +1,71 @@
+<div class="page-header">
+    <h1 style="text-align: center">Tutorial: Add Component</h1>
+</div>
+<div class="container">
+  <h2>Creating the Shopping List Add Component</h2>
+  <p>
+    In order to see things in our list we need to be able to add them. This Component will also be a part
+    of a router state called the ADD state. To get started we first need to create the ShoppingListAdd component.
+    To create this component use the Viage CLI:
+    <pre class="code">${this.pp('viage component shopping-list-add', 'bsh')}</pre>
+  </p>
+  <p>
+    Copy and paste the following code into shopping-list-add.ts:
+  </p>
+  <pre class="code">${this.pp(this.escapeHtml(this.code1), 'javascript')}</pre>
+  <p>
+    Now create the file shopping-list-add.html in the same directory as the shopping-list-add.ts file and copy and paste
+    the following code into it:
+  </p>
+  <pre class="code">${this.pp(this.escapeHtml(this.code2), 'html')}</pre>
+  <h2>How it Works</h2>
+  <p>
+    This component's HTML consists of a header element and a series of input elements for entering the Quantity,
+    Description, Name, and some buttons to Save and go Back. The HTML is standard HTML with the exception of attach
+    attributes added to the input elements and the buttons. This is simply a convienence mechahism so that the component
+    has easy access to these elements.
+  </p>
+  <h4>Save</h4>
+  <p>
+    The init function adds the external HTML from the shopping-list-add.html file and then adds handlers to the Save and Back
+    buttons. The handler for the Save button creates an <b>Item</b> object to send to the service so it can be added to the shopping list.
+    It does this by getting the values from each of the input elements in this component's HTML which are stored in the
+    components <b>this.attachments</b> member. Because the type of the attachments is HTMLElement, the item must be cast to a
+    HTMLInputElement so that the TypeScript compiler won't complain when we try to get the <b>value</b> member. Yes the atttributes
+    member could be typed as an 'any' object, but you should always try to maintain strict typing whenever possible so
+    that the compilor can help catch any mistakes you might make.
+   </p>
+   <p>
+     Once the Item is constructed, <b>shoppingListService.addItem(item)</b> is called to add the item to the shooping list and
+     save it. Then, the router is called to create the HOME state URL and it is instructed to go to that state. The back button
+     handler just calls the router's back functionality which goes back one in the browser's history.
+   </p>
+  <h2>The ADD Route</h2>
+  <p>
+    Next, we need to add an entry into the router states array for the HOME state. In app.ts, import the shopping-list-add
+    component and add a the <b>ADD</b> enum to the States Enum and a new entry in the router states array. app.ts should
+    now look like this:
+  </p>
+  <pre class="code">${this.pp((this.code3), 'javascript')}</pre>
+  <h2>Mostly Functional Shopping List App</h2>
+  <p>
+    At this point we can add objects to a shopping list and display them. launch the application and you should see something
+    that looks like this. You will need to add items to the list to see them.
+  </p>
+  <div style="margin-top: 25px;margin-bottom:25px;">
+    <h4 style="text-align: center;color: #0091ff;">Empty Shopping List</h4>
+    <img src="${this.img1}" style="width:100%; border-style:solid; border-width:1px">
+  </div>
+  <div style="margin-top: 25px;margin-bottom:25px;">
+      <h4 style="text-align: center;color: #0091ff;">Add State</h4>
+      <img src="${this.img2}" style="width:100%; border-style:solid; border-width:1px">
+  </div>
+  <div style="margin-top: 25px;margin-bottom:25px;">
+      <h4 style="text-align: center;color: #0091ff;">Populated Shopping List</h4>
+      <img src="${this.img3}" style="width:100%; border-style:solid; border-width:1px">
+  </div>
+  <p>
+    <button attach="prev" type="button" class="btn btn-outline-primary">Routing</button>
+    <button attach="next" type="button" class="btn btn-outline-primary">Edit Component</button>
+  </p>
+</div>
