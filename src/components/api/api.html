@@ -23,18 +23,22 @@
       </li>
       <li>
         Use the attach attribute in your HTML to automatically to attach elements to a component. They will show up in <b>this.attachments</b>
-        which is a map with the attach name as the key
+        or <b>this.a</b> which is a map with the attach name as the key
       </li>
       <li>
         Use the <b>createComponent()</b> method to create and automatically add components to a component. Added Components will show up
-        in <b>this.components</b> which is a map with the component name as a key
+        in <b>this.components</b> or <b>this.c</b> which is a map with the component name as a key
       </li>
       <li>
         Use <b>clearComponents()</b> or <b>destroyComponent()</b> to automtically remove a component and call release on it
       </li>
       <li>
         Use <b>addServiceListener()</b> and <b>removeListener()</b> to add listeners to a service. This takes care of unregistering the event
-        listeners on release or remove. The listeners are stored in the array <b>this.listeners</b>
+        listeners on release or remove. The listeners are stored in the array <b>this.listeners</b> or <b>this.l</b>
+      </li>
+      <li>
+        Use <b>addListener()</b> and <b>removeListener()</b> to add listeners to a DOM element or the Window object. This takes care of unregistering the event
+        listeners on release or remove. The listeners are stored in the array <b>this.listeners</b> or <b>this.l</b>
       </li>
       <li>
         Release will clean up all the attached listeners, components, and attachements
@@ -60,7 +64,16 @@
     This uses a intermediate class that manages the intricacies of the <b>addEventListener()</b> API and its difficulties with
     classes and arrow functions.
     <pre class="code">${this.pp(`this.addServiceListener<Data>(ShoppingListService, 'update', (d: Data) => this.updateList());`, 'js')}</pre>
-    The resultant intermediate class is stored in <b>this.serviceListeners</b>
+    The resultant intermediate class is stored in <b>this.listeners</b> or <b>this.l</b>
+  </p>
+
+  <h4 class="function">addListener&#60T&#62(element: HTMLElement | Window, event: string, cb: ListenerCallback&#60T&#62): Listener&#60T&#62</h4>
+  <p>
+    This adds an event listener to a DOM element or the the Window object. This will automatically be removed when the component gets destroyed.
+    This uses a intermediate class that manages the intricacies of the <b>addEventListener()</b> API and its difficulties with
+    classes and arrow functions.
+    <pre class="code">${this.pp(`this.addListener<Data>(window, 'resize', (e: UIEvent) => console.log('Window Resized'));`, 'js')}</pre>
+    The resultant intermediate class is stored in <b>this.listeners</b> or <b>this.l</b>
   </p>
 
   <h4 class="function">attach(attachPoint: HTMLElement | string, replace?: boolean)</h4>
@@ -128,7 +141,7 @@
 
   <h4 class="function">removeListener(target: Listener)</h4>
   <p>
-    This takes a listener, calls remove on it and removes this instance from the list of listneners in the component.
+    This takes a listener, calls remove on it and removes this instance from the list of listeners in the component.
   </p>
 
   <h4 class="function">protected setHTML(html: string)</h4>
@@ -184,8 +197,11 @@ ${this.pp(this.code11, 'js')}
   <p>
     The intermediate listener class takes care of all the intricacies of the addEventListener API.
     It is hard to remove a event listener once it is added if you use a arrow function or a class method.
-    This class is not meant to be used directly and is used by the Service listeners. Calling <b>remove()</b>
-    on this returned class removes the event listener. The class looks likes this:
+    This class can we used to attach to any elements as listeners and to Services. Calling <b>remove()</b>
+    on this returned class removes the event listener. This class is created under the hood when <b>addListener()</b> or <b>addServiceListener()</b>
+    is called in a Component. When a Component is destroyed it automatically takes care of releasing any added listeners.
+
+    The class looks likes this:
     <pre class="code">${this.pp(this.code2, 'js')}</pre>
   </p>
   <h2>Router</h2>
@@ -280,8 +296,9 @@ ${this.pp(this.code11, 'js')}
     Where state is defined as:
     <pre class="code">${this.pp(this.code4, 'js')}</pre>
     This function configures the router with its states. <b>name</b> is the url, <b>component</b> is the component that will be
-    rendered into the portal. The type is either 'DEFAULT' or 'NORMAL'. THere can only be one DEFAULT state and the others must
-    be NORMAL states.
+    rendered into the portal. The type is either 'DEFAULT' or 'NORMAL'. There can only be one DEFAULT state and the others must
+    be NORMAL states. <b>promise</b> is a function that returns a promise so that a component can be lazy loaded if needed.
+    <pre class="code">${this.pp(this.code4_5, 'js')}</pre>
   </p>
   <p>
     Use the <b>createUrl()</b> function to create URLs and embed data in them. Any JSON-able data can be used to construct the URL.
@@ -327,6 +344,12 @@ ${this.pp(this.code11, 'js')}
     <pre class="code">${this.pp(this.code6, 'js')}</pre>
     For Location and Hash routers, you can also trigger a state change by using setting links, setting location.href,
     by using the back and forward browser buttons, and by calling <b>back()</b>.
+  </p>
+
+  <h4 class="function">goDirect&#60T&#62(state: string, data?: T)</h4>
+  <p>
+    This function is a convienence function and calls <b>createUrl()<b> and then <b>go()</b> in one operation under the hood
+    <pre class="code">${this.pp(this.code6_5, 'js')}</pre>
   </p>
 
   <h4 class="function">removeState(name: string)</h4>

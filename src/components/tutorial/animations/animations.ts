@@ -16,6 +16,6 @@ export class TutorialAnimations extends Component {
       () => this.router.go(this.router.createUrl(States.TUTORIAL_STYLING)));
 
     this.attachments.next.addEventListener('click',
-      () => this.router.go(this.router.createUrl(States.TUTORIAL_CONCLUSION)));
+      () => this.router.go(this.router.createUrl(States.TUTORIAL_LAZY_LOADING)));
   }
 }

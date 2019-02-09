@@ -15,6 +15,7 @@ import { TutorialRouting } from './tutorial/routing/routing';
 import { TutorialEditComponent } from './tutorial/edit/edit';
 import { TutorialStyling } from './tutorial/styling/styling';
 import { TutorialAnimations } from './tutorial/animations/animations';
+import { TutorialLazyLoading } from './tutorial/lazy-loading/lazy-loading';
 import { TutorialConclusion } from './tutorial/conclusion/conclusion';
 import { What } from './what/what';
 import { GettingStarted } from './getting-started/getting-started';
@@ -38,6 +39,7 @@ export enum States {
   TUTORIAL_EDIT_COMPONENT = 'tutorial_edit_component',
   TUTORIAL_STYLING = 'tutorial_styling',
   TUTORIAL_ANIMATIONS = 'tutorial_animations',
+  TUTORIAL_LAZY_LOADING = 'tutorial_lazy_loading',
   TUTORIAL_CONCLUSION = 'tutorial_conclusion',
 };
 
@@ -65,6 +67,7 @@ export function initRouter(portal: HTMLElement) {
     { name: States.TUTORIAL_EDIT_COMPONENT, component: TutorialEditComponent,  type: 'NORMAL' },
     { name: States.TUTORIAL_STYLING, component: TutorialStyling,  type: 'NORMAL' },
     { name: States.TUTORIAL_ANIMATIONS, component: TutorialAnimations,  type: 'NORMAL' },
+    { name: States.TUTORIAL_LAZY_LOADING, component: TutorialLazyLoading,  type: 'NORMAL' },
     { name: States.TUTORIAL_CONCLUSION, component: TutorialConclusion,  type: 'NORMAL' },
   ];
   router.addStates(states);

@@ -1,0 +1,38 @@
+<div class="page-header">
+  <h1 style="text-align: center">Tutorial: Lazy Loading</h1>
+</div>
+<div class="container">
+  <h2>Lazy Loading Elements</h2>
+  <p>
+    Lazy loading is a process by which parts of the App are loaded on demand and not when the App is loaded initially. This can greatly
+    decrease the amount of time that it takes for the app to load initially. Done right, major pieces of a large app can be broken out
+    into bundles and loaded as needed.
+  </p>
+
+  <h2>Webpack Makes this Easy</h2>
+  <p>
+    This could be a real pain if one had to do it manually and setup each bundle that Webpack compiled by hand. However, Webpack makes this really
+    easy. By using the <b>import</b> function instead of the import statement, you can specify a bundle name that you want webpack to compile it into
+    and the file is going to be used to create the bundle. Webpack will automatically bundle all the code imported by that file and it's children into one
+    bundle. It is even smart enough to not bundle code that is already part of main bundle.
+  </p>
+
+  <h2>Using Lazy Loading in the Router</h2>
+  <p>
+    The Router is the easiest place to use this. However the <b>import()</b> function returns a promise and so the Router needs to handle this a little differently:
+    <pre class="code">${this.pp(this.escapeHtml(this.code1), 'javascript')}</pre>
+    Note that the import statement at the top of the file that contained the <b> shopping-list-add </b> component was removed and that the routes were modified to
+    use a promise in stead of a component. The inline comment is special in that it tells webpack what to name the bundle that will contain the <b>ShoppingListAdd</b>
+    component. In this case we have named it 'add'. When Webpack compiles the project it will produce a bundle called <b>add.bundle.js</b> This bundle will only
+    be loaded when the state for ADD or EDIT is requested from the Router.
+  </p>
+  <p>
+    Granted in the case of the Shopping list App, this probably doesn't make a lot of sense because the entire App is so small. But large applications should find
+    this useful.
+  </p>
+  <p>
+      <button attach="prev" type="button" class="btn btn-outline-primary">Animations</button>
+      <button attach="next" type="button" class="btn btn-outline-primary">Conclusion</button>
+    </p>
+</div>
+

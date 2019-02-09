@@ -46,22 +46,26 @@ export class Listener<T> {
 
 export const code3 =
 `import { ShoppingList } from './shopping-list';
-import { ShoppingListAdd } from './shopping-list-add';
 import { createRouter, RouterType, StateType } from 'viage';
 const router = createRouter('main', this.attachments.portal, RouterType.HASH);
 router.addStates([
   { name: 'home', component: ShoppingList,  type: StateType.DEFAULT },
-  { name: 'add', component: ShoppingListAdd,  type: StateType.NORMAL },
-  { name: 'edit', component: ShoppingListAdd,  type: StateType.NORMAL },
+  // lazy load the add and edit components
+  { name: States.ADD, promise: () => import(/* webpackChunkName: "add" */ './shopping-list-add')
+    .then((module) => new module.ShoppingListAdd()),  type: 'NORMAL' },
+  { name: States.EDIT, promise: () => import(/* webpackChunkName: "add" */ './shopping-list-add')
+    .then((module) => new module.ShoppingListAdd()),  type: 'NORMAL' },
 ]);
 router.start();`;
 
 export const code4 =
-`export interface State {
+`interface State<T extends Component> {
   name: string;
-  component: any;
+  component?: T;
+  promise?: any;
   type: 'DEFAULT' | 'NORMAL';
 }`;
+
 
 export const code5 =
 `const homeUrl = this.router.createUrl<void>(States.HOME);
@@ -71,6 +75,10 @@ export const code6 =
 `const router = getRouter('main');
 const homeUrl = router.createUrl('home');
 router.go(homeUrl);`;
+
+export const code6_5 =
+`const router = getRouter('main');
+router.goDirect('home');`;
 
 export const code7 =
 `// add a handler for router state changes
