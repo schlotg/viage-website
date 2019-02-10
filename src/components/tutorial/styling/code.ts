@@ -196,21 +196,21 @@ export const code4 = `
 
 export const code6 = `
   <div class="not-mobile list-item">
-    <input attach="enabled" type="checkbox" ${this.purchased ? "checked": ""} />
-    <span style="width: 30px; display: inline-block">${this.quantity}</span>
-    <span style="width: 20%; display: inline-block">${this.name}</span>
-    <span style="width: 40%; display: inline-block">${this.description}</span>
+    <input attach="enabled" type="checkbox" \${this.purchased ? "checked": ""} />
+    <span style="width: 30px; display: inline-block">\${this.quantity}</span>
+    <span style="width: 20%; display: inline-block">\${this.name}</span>
+    <span style="width: 40%; display: inline-block">\${this.description}</span>
     <button attach="delete" style="padding: 1px; float: right">Delete</button>
     <button attach="edit" style="padding: 1px; float: right; margin-right: 10px;">Edit</button>
   </div>
   <div attach="m_edit" class="mobile list-item">
-    <input attach="m_enabled" type="checkbox" ${this.purchased ? "checked": ""} />
-    <span style="width: 30px; display: inline-block">${this.quantity}</span>
-    <span style="width: 50%; display: inline-block">${this.name}</span>
+    <input attach="m_enabled" type="checkbox" \${this.purchased ? "checked": ""} />
+    <span style="width: 30px; display: inline-block">\${this.quantity}</span>
+    <span style="width: 50%; display: inline-block">\${this.name}</span>
     <button attach="m_delete" style="padding: 1px; float: right">X</button>
     <div style="display: block; margin-top:20px;">
       <label style="font-weight:800">Description: </label>
-      <span style="width: 40%;" >${this.description}</span>
+      <span style="width: 40%;" >\${this.description}</span>
     </div>
   </div>
 `;

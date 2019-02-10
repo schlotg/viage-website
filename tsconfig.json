@@ -3,13 +3,17 @@
     "outDir": "./dist/",
     "sourceMap": true,
     "noImplicitAny": true,
-    "target": "es6",
+    "target": "es2017",
     "jsx": "react",
     "allowJs": true,
     "experimentalDecorators": true,
-    "module": "commonjs"
+    "module": "esnext",
+    "moduleResolution": "node"
   },
-  "include": [ "src/**/*" ],
+  "include": [
+    "src/**/*",
+    "node_modules/viage/src/**/*"
+  ],
   "typeRoots": [
     "node_modules/@types",
     "./src/types.d.ts"
@@ -18,5 +22,4 @@
     "es2017",
     "dom"
   ]
-
 }

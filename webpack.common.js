@@ -9,7 +9,6 @@ module.exports = {
       {
         test: /\.tsx?$/i,
         use: 'ts-loader',
-        exclude: /node_modules/
       },
       {
         test: /\.css$/i,
@@ -17,16 +16,16 @@ module.exports = {
       },
       {
         test: /\.(png|svg|jpg|gif)$/i,
-        use: [ { loader: 'url-loader', options: { limit: 8192 } } ]
+        use: [ { loader: 'url-loader', options: { limit: 16384 } } ]
       },
       {
         test: /\.html$/i,
         use: 'raw-loader'
-      }
-    ],
+      },
+    ]
   },
   resolve: {
-    extensions: ['.ts', '.js', '.html']
+    extensions: ['.ts', '.js']
   },
   plugins: [
     new CleanWebpackPlugin(['dist']),
@@ -37,8 +36,19 @@ module.exports = {
     })
   ],
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
+    chunkFilename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: ''
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+        }
+      }
+    }
   }
 };
