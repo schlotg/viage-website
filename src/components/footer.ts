@@ -27,7 +27,7 @@ import { States } from './app';
               <li><a href="${faq}">FAQ</a></li>
             </ul>
           </div>
-          <p class="justify-content-md-center">Viage ©2018</p>
+          <p class="justify-content-md-center">Viage ©2019</p>
       `);
 
       return this;
